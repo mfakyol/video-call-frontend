@@ -5,9 +5,9 @@ export default function Video({ peer, socketRef }) {
   const refVideo = useRef();
 
   useEffect(() => {
+    console.log(peer.isCameraOpen, peer.isMicrophoneOpen)
     peer.on("stream", (stream) => {
       refVideo.current.srcObject = stream;
-      console.log(peer);
     });
   }, [peer]);
 

@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Main from "../components/layouts/Main";
+import PrivateMain from "../components/layouts/PrivateMain";
 import PublicMain from "../components/layouts/PublicMain";
+import AccessDenied from "../components/views/AccessDenied/AccessDenied";
 import CreateRoom from "../components/views/private/CreateRoom/CreateRoom";
 import PrivateHeader from "../components/views/private/PrivateHeader/PrivateHeader";
 import RoomDetail from "../components/views/private/RoomDetail/RoomDetail";
@@ -13,7 +15,7 @@ import Header from "../components/views/public/Header/Header";
 import Home from "../components/views/public/Home/Home";
 import Login from "../components/views/public/Login/Login";
 import Signup from "../components/views/public/Signup/Signup";
-import Room from "../components/views/Room/Room";
+import RoomPage from "../components/views/RoomPage/RoomPage";
 
 export default () => {
   return (
@@ -21,24 +23,28 @@ export default () => {
       <Switch>
         
         <Route path="/rooms/:roomId?">
-          <PublicMain>
+          <PrivateMain>
             <PrivateHeader/>
             <Switch>
               <Route path="/rooms" exact component={Rooms} />
               <Route path="/rooms/create" exact component={CreateRoom} />
               <Route path="/rooms/:roomId" exact component={RoomDetail} />
             </Switch>
-          </PublicMain>
+          </PrivateMain>
         </Route>
 
 
         <Route path="/room/:roomId?">
           <Main>
             <Switch>
-              <Route path="/room/:roomId" exact component={Room} />
+              <Route path="/room/:roomId/:password" exact component={RoomPage} />
             </Switch>
           </Main>
         </Route>
+
+
+        <Route path="/accessdenied/:type" exact component={AccessDenied} />
+ 
 
 
         <Route path="/">

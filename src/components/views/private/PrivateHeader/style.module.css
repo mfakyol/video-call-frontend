@@ -1,26 +1,79 @@
 .header {
-    width: 100%;
-    height: 60px;
-    background: #ecf0f1;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-  }
-  
-  .logo {
-    display: inline-block;
-    text-decoration: none;
-    color: #1abc9c;
-    font-size: 30px;
-    padding: 9.5px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  
+  width: 100%;
+  height: 60px;
+  background: #ecf0f1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.logo {
+  display: inline-block;
+  text-decoration: none;
+  color: #1abc9c;
+  font-size: 30px;
+  padding: 9.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.navbar > i {
+  position: relative;
+  margin-right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.account-menu {
+  position: absolute;
+  top: 120%;
+  right: 0px;
+  width: 300px;
+  background-color: #ecf0f1;
+  border-radius: 3px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  cursor: text;
+  user-select: text;
+  pointer-events: none;
+}
+
+.account-menu > p {
+  padding: 12px 8px;
+  border-bottom: 1px solid grey;
+}
+
+.account-menu > .flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.account-menu > p > i {
+  cursor: pointer;
+  pointer-events: initial;
+}
+
+.log-out {
+  cursor: pointer;
+  pointer-events: initial;
+}
+
+.rename-bg {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}

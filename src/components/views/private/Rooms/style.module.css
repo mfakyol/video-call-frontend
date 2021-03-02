@@ -67,3 +67,16 @@
     margin-bottom: 20px;
   }
 }
+.create-wrapper {
+  flex-basis: 100%;
+  padding: 40px;
+  text-align: center;
+}
+
+.create-button {
+  font-size: 14px;
+  background-color: #3498db;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+}

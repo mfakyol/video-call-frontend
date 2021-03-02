@@ -1,10 +1,17 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
-class PublicMain extends Component {
-  render() {
-    return <>{this.props.children}</>;
-  }
+function PublicMain(props) {
+  const history = new useHistory();
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (token) {
+      history.push("/rooms");
+    }
+    return () => {};
+  }, [history]);
+  return <>{props.children}</>;
 }
 const mapStateToProps = (state) => {
   return {};

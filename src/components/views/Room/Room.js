@@ -7,20 +7,23 @@ import Video from "../Video/Video";
 import io from "socket.io-client";
 import { v4 as uuid } from "uuid";
 import Peer from "simple-peer";
+import { useParams } from "react-router-dom";
 
-export default function Room(props) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+export default function Room({ defaultName, video, audio }) {
+  const params = useParams();
   const [chats, setChats] = useState([]);
   const [peers, setPeers] = useState([]);
-  const [isMicrophoneOpen, setIsMicrophoneOpen] = useState(true);
-  const [isCameraOpen, setIsCameraOpen] = useState(true);
   const [srcObject, setSrcObject] = useState(undefined);
-  const [name, setName] = useState(
-    new URLSearchParams(props.location.search).get("name") || "user"
-  );
+  const [isCameraOpen, setIsCameraOpen] = useState(video);
+  const [isMicrophoneOpen, setIsMicrophoneOpen] = useState(audio);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [name, setName] = useState(defaultName || "user");
   const socketRef = useRef();
   const peersRef = useRef([]);
-  const roomId = props.match.params.roomId;
+  const roomId = params.roomId;
+  const password = params.password;
+
+
 
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:3001", {
@@ -37,6 +40,24 @@ export default function Room(props) {
           roomId,
           isMicrophoneOpen,
           isCameraOpen,
+          password,
+        });
+
+        socketRef.current.on("no_room", () => {
+          console.log("no room");
+          //redirect no room page
+          window.location.href = "/accessdenied/Room not exist";
+        });
+
+        socketRef.current.on("room_closed", () => {
+          console.log("room closed");
+          //redirect no room page
+          window.location.href = "/accessdenied/Room closed";
+        });
+        socketRef.current.on("room_full", () => {
+          console.log("room full");
+          //redirect no room page
+          window.location.href = "/accessdenied/Room Full";
         });
 
         socketRef.current.on("other_users", (users) => {
@@ -164,8 +185,8 @@ export default function Room(props) {
         userToSignal,
         callerID,
         signal,
-        isCameraOpen: stream.getAudioTracks()[0].enabled,
-        isMicrophoneOpen: stream.getVideoTracks()[0].enabled,
+        isCameraOpen: stream.getVideoTracks()[0].enabled,
+        isMicrophoneOpen: stream.getAudioTracks()[0].enabled,
       });
     });
 
@@ -199,6 +220,10 @@ export default function Room(props) {
     });
     return () => {};
   }, [isMicrophoneOpen, isCameraOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function closeCall() {
+    window.location.href = "/";
+  }
 
   return (
     <div className={classes["page"]}>
@@ -240,7 +265,10 @@ export default function Room(props) {
             style={{ display: isCameraOpen ? "inline-flex" : "none" }}
             className={`fas fa-video ${classes["video"]}`}
           ></i>
-          <i className={`fas fa-phone-slash ${classes["phone"]}`}></i>
+          <i
+            onClick={closeCall}
+            className={`fas fa-phone-slash ${classes["phone"]}`}
+          ></i>
         </div>
       </div>
       <Sidebar
